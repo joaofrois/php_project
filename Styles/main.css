@@ -1,0 +1,14 @@
+html,
+body {
+  height: 100%;
+  background-color: rgb(211, 210, 210);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.welcome{
+  color:red;
+}
