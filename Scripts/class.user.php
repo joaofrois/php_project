@@ -35,13 +35,14 @@ class USER{
           $stmt = $this->db->prepare("SELECT * FROM user WHERE name=:name  LIMIT 1");
           $stmt->execute(array(':name'=>$name));
           $userRow=$stmt->fetch(PDO::FETCH_ASSOC);
-          if($stmt->rowCount() > 0)
+           if($stmt->rowCount() > 0)
           {
              if(password_verify($pass, $userRow['password']))
              {
-                $_SESSION['user_session'] = $userRow['idUser'];
+                 unset($userRow['pass']);
+                $_SESSION['user_session'] = $userRow;
+               
                 return true;
-                
              }
              else
              {
@@ -67,6 +68,34 @@ class USER{
    {
        header("Location: $url");
    }
+
+   public function getName(){
+        // $stmt =$this->db->prepare("SELECT name FROM user WHERE idUser=:id  LIMIT 1");
+        // $stmt->execute(array(':id'=>$_SESSION['user_session']));
+        // $userRow=$stmt->fetch(PDO::FETCH_ASSOC);
+        return $_SESSION['user_session']['name'];
+   }
+   
+   public function addSite($name, $url, $category){
+       try{
+    
+        $stmt = $this->db->prepare("INSERT INTO sites( name, url, Category_idCategory) VALUES(:name, :url, :category)");
+        $stmt->bindparam(":name", $name);
+        $stmt->bindparam(":url", $url);
+        $stmt->bindparam(":category", $category);
+        $stmt->execute();
+        $stmt=$this->db->prepare("INSERT INTO favorites(Sites_idSites, User_idUser) VALUES(:category, :userID)");
+        $stmt->bindparam(":category", $category);
+        $stmt->bindparam(":userID", $_SESSION['user_session']['idUser']);
+        $stmt->execute();
+
+   }
+   catch(PDOException $e){
+        echo$e->getMessage();
+    
+   }
+}
+
  
    public function logout()
    {
@@ -76,6 +105,3 @@ class USER{
    }
 }
 ?>
-
-
-}

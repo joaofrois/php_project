@@ -15,7 +15,7 @@ if(isset($_POST['btn-login']))
  {
   $user->redirect('home.php');
  }
-else
+ else
  {
   $error = "Wrong Details !";
  } 
@@ -45,8 +45,11 @@ else
             <?php
             if(isset($error))
             {
-                 echo $error;
-                  
+                  ?>
+                  <div class="alert alert-danger">
+                      <i class="glyphicon glyphicon-warning-sign"></i> &nbsp; <?php echo $error; ?> !
+                  </div>
+                  <?php
             }
             ?>
             <div class="usernameContainer">
