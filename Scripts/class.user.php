@@ -84,11 +84,24 @@ class USER{
         $stmt->bindparam(":url", $url);
         $stmt->bindparam(":category", $category);
         $stmt->execute();
-        $stmt=$this->db->prepare("INSERT INTO favorites(Sites_idSites, User_idUser) VALUES(:category, :userID)");
-        $stmt->bindparam(":category", $category);
-        $stmt->bindparam(":userID", $_SESSION['user_session']['idUser']);
+
+        $stmt = $this->db->prepare("SELECT idSites from sites WHERE url=:url ");
+        $stmt->bindparam(":url", $url);
+        $stmt->execute();
+        $siteId=$stmt->fetch(PDO::FETCH_ASSOC);
+        $siteId =  $siteId["idSites"];
+        
+        $userId =$_SESSION['user_session']['idUser'];
+
+
+        $stmt = $this->db->prepare("INSERT INTO favorites( Sites_idSites, User_idUser) VALUES(:siteId, :userId)");
+        $stmt->bindparam(":siteId", $siteId );
+        $stmt->bindparam(":userId", $userId);
         $stmt->execute();
 
+
+        
+        
    }
    catch(PDOException $e){
         echo$e->getMessage();
