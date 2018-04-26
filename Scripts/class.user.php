@@ -75,8 +75,22 @@ class USER{
         // $userRow=$stmt->fetch(PDO::FETCH_ASSOC);
         return $_SESSION['user_session']['name'];
    }
-   
-   public function addSite($name, $url, $category){
+
+   public function getSites(){
+    $stmt = $this->db->prepare("SELECT sites.* FROM favorites INNER JOIN sites ON favorites.Sites_idSites = sites.idSites WHERE favorites.User_idUser = :idUser");
+   $userId =$_SESSION['user_session']['idUser'];
+   $stmt->bindparam(":idUser", $userId);
+   $stmt->execute();
+   $siteList= $stmt->fetchAll(PDO::FETCH_ASSOC);
+  
+    
+    
+    return $siteList;
+  }
+  
+
+
+public function addSite($name, $url, $category){
        try{
     
         $stmt = $this->db->prepare("INSERT INTO sites( name, url, Category_idCategory) VALUES(:name, :url, :category)");
@@ -108,6 +122,38 @@ class USER{
     
    }
 }
+
+    public function getCategory($idCat){
+       try{
+        $stmt = $this->db->prepare("SELECT name FROM category WHERE idCategory =:idCat");
+        $stmt->bindparam(":idCat", $idCat);
+        $stmt->execute();
+        $category= $stmt->fetch(PDO::FETCH_ASSOC);
+        
+
+        return $category;
+       }
+       catch(PDOException $e){
+        echo$e->getMessage();
+    
+   }
+    }
+
+    public function removeSite($idSite){
+        try{
+        $stmt = $this->db->prepare("DELETE FROM sites WHERE idSites =:idSite");
+        $stmt->bindparam(":idSite", $idSite);
+        $stmt->execute();
+        
+    
+
+
+    }
+    catch(PDOException $e){
+        echo$e->getMessage();
+    
+   }
+    }
 
  
    public function logout()

@@ -41,7 +41,7 @@ if(isset($_POST['addSiteBtn']))
             <nav>
                 <ul>
                     <li><a href="">Add a Site</a></li>
-                    <li><a href="">Check Sites</a></li>
+                    <li><a href="checkSites.php">Check Sites</a></li>
                     <li><a href="">Check Charts</a></li>
                     <li> <a href="?logout">Logout</a></li>
                 </ul>
@@ -61,7 +61,7 @@ if(isset($_POST['addSiteBtn']))
                 </div>
                 <div class="urlContainer">
                     <label for="site">Site: </label>
-                    <input type="url" name="site" id="site">
+                    <input type="text" name="site" id="site">
                 </div>
                 <div class="typeContainer">
                         <select name="category">
