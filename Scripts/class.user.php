@@ -121,7 +121,12 @@ public function addSite($name, $url, $category){
         echo$e->getMessage();
     
    }
+
+
 }
+
+
+
 
     public function getCategory($idCat){
        try{
@@ -141,9 +146,13 @@ public function addSite($name, $url, $category){
 
     public function removeSite($idSite){
         try{
-        $stmt = $this->db->prepare("DELETE FROM sites WHERE idSites =:idSite");
-        $stmt->bindparam(":idSite", $idSite);
-        $stmt->execute();
+            $stmt = $this->db->prepare("DELETE FROM favorites WHERE Sites_idSites=:idSite");
+            $stmt->bindparam(":idSite", $idSite);
+            $stmt->execute();
+
+            $stmt = $this->db->prepare("DELETE FROM sites WHERE idSites =:idSite");
+            $stmt->bindparam(":idSite", $idSite);
+            $stmt->execute();
         
     
 

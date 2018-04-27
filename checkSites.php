@@ -13,8 +13,10 @@ if($user->is_loggedin()!="")
 
 }
 
-if(isset($_Get['siteid'])){
-    $user->removeSite();
+if(isset($_GET['siteid'])){
+    $user->removeSite($_GET['siteid']);
+    
+
     
 
 }
@@ -90,7 +92,7 @@ if(isset($_GET['logout'])){
                     "<td>".$value["name"]."</td>".
                     "<td>".$value["url"]."</td>".
                     "<td>".$category["name"]."</td>".
-                    "<td><a href=?siteid=".$value["idSites"].">Remove</a></td>".
+                    "<td><a href='?siteid=".$value["idSites"]."'>Remove</a></td>".
                  "</tr>";
            }
 
